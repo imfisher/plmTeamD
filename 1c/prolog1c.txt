@@ -1,0 +1,57 @@
+Problem 1:
+
+1a. An association list is a data structure used to record 
+short, mappings of keys to values. It consists of a list 
+of pairs, with each pair representing an association 
+between the key (car, or the first element) and the datum 
+(cdr, the tail end). 
+    Ex. ((pine . cones)
+         (oak . acorns)
+         (maple . seeds))
+
+1b. The assoc function searches an association and returns
+the first car and cdr pair of elements which satisfy the 
+test argument. 
+
+    In this section of code, it will run through the list
+    and return the pair with r as the car. In this case it
+    will return (r . x)
+    
+1c. The mapcan function takes each element of the provided
+list and applies the provided function. 
+
+    This function has a variety of uses, such as finding all
+    the positive numbers in a list. This would be done with
+    the following: 
+    (mapcan (lambda (x) (if (> x 0) (list x) nil)) '(8 7 6
+    -5 -4 3 -2 1))
+    
+1d. 1. (defparameter *hashtable* (make-hash-table))
+    2. (setf (gethash 'entry *hash-table*) "testing")
+    3. (gethash 'entry *hash-table*)
+    
+1e. The function sublis splices two trees together and 
+produces a compltely new tree. The first tree is usally 
+a list of elements and the second tree is the formatting. 
+
+    An example of this is: (sublis '( (c . d) '(c c))
+    
+1f. In prolog, bindings variables are used to assign a 
+value to a variable. This is mostly used when attempting
+to satisfy a query or during the creation of a rule.
+
+1g. '(= ?x ?x) Works because it is a predefined operator
+in lisp. It works by binding both ?xs to a different atom
+and then checking their equality.
+
+1h. (gensym "?") Returns a compltely original symbol that
+is prefaced by :?. 
+
+1i. Renaming is required because if multiple parameters 
+have the same name, then they might get overwritten or 
+accessed at the wrong time.
+
+1j. The ands clause is done in reverse in order to be 
+able to handle recursive ands calls. During a recursive 
+call, the first call is the last one to calculated, 
+resulting in the calls being handled backwards.
