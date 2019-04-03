@@ -1,4 +1,4 @@
-all: eg1
+all: eg0b
 
 define hi
   echo "\n### $@ ######################\n"
@@ -10,14 +10,14 @@ Auto=cat $(Test)/data/auto.csv
 Auto10=cat $(Test)/data/auto10000.csv
 Auto1M=cat $(Test)/data/auto1M.csv
 Weather=cat $(Test)/data/auto.csv
-DSL= dsl/monte_carlo -n 2000 -s 1729 -v False| dsl/brooks2
-
+DSL=dsl/monte_carlo -n 2000 -s 1729 -v False| dsl/brooks2
+DSL1=dsl/monte_carlo -n 2000 -s 1729 -v False
 ok:; @bash $(Etc)/lua2bin
 
 eg20:  ok; @$(hi); $(DSL) 
 eg0:  ok; @$(hi); $(DSL) | dom | bestrest | super | rank
 eg0a: ok; @$(hi); $(DSL) | dom | bestrest | super
-eg0b: ok; @$(hi); $(DSL) 
+eg0b: ok; @$(hi); $(DSL1) 
 eg1:  ok; @$(hi); cat $(Test)/data/weather.csv | dom
 eg2:  ok; @$(hi); $(Auto) | dom | $(some); $(Auto) | head -1 | $(some)
 eg2a: ok; @$(hi); $(Auto) | dom 

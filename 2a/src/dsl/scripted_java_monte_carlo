@@ -1,0 +1,137 @@
+#!/usr/bin/java --source 11
+import java.util.Random;
+
+public class MonteCarlo {
+
+  private NumGenerator generator;
+  private Attribute[] attributes;
+  private String[] init_values = {"pomposity", "0", "100", "learning_curve", "1", "100",
+    "optimism", "0.1", "100", "atleast", "0", "10", "done_percent", "0", "10", "productivity_new",
+    "0", "1", "productivity_exp", "1", "10", "d", "0", "1", "ep", "1", "10", "nprod", "0.1", "10",
+    "np", "1", "30", "ts", "1", "100", "to", "1", "100", "r", "1", "1000"};
+
+  public static void main(String args[]) {
+    // Set default values
+    String n = "1";
+    String seed = "1";
+    String verbose = "False";
+
+    // Parse command line arguments
+    for (int i = 0; i < args.length; i+=2 ) {
+      if (args[i].equals("-n")) {
+        n = args[i + 1];
+      } else if (args[i].equals("-s")) {
+        seed = args[i + 1];
+      } else if (args[i].equals("-v")) {
+        verbose = args[i + 1];
+      }
+    }
+
+    // Create MonteCarlo object/actor
+    MonteCarlo mc = new MonteCarlo();
+    mc.dispatch(new String[] {"init", seed});
+    mc.dispatch(new String[]{"run", n, verbose});
+  }
+  
+  public MonteCarlo() {}
+
+  public String dispatch(String[] message){
+    if (message[0] == "init") {
+      return init(message[1]);
+    } else if (message[0] == "run") {
+      return run(message[1], message[2]);
+    }
+    return null;
+  }
+
+  private String init(String seed) {
+    generator = new NumGenerator();
+    generator.dispatch(new String[] {"init", seed});
+    attributes = new Attribute[14];
+    int v = 0;
+    for (int i = 0; i < attributes.length; i++) {
+      attributes[i] = new Attribute();
+      attributes[i].dispatch(new String[] {"init", init_values[v++], init_values[v++], init_values[v++]});
+    }
+    return null;
+  }
+
+  private String run(String n, String verbose) {
+    verbose = verbose.toLowerCase();
+    boolean verb = (verbose.equals("true") || verbose.equals("t"));
+    int iters = Integer.parseInt(n);
+    for (int i = 0; i < iters; i++ ) {
+      System.out.printf("{");
+      System.out.printf("\'verbose\': %b", verb);
+      for (int j = 0; j < attributes.length; j++){
+        System.out.printf(", \'%s\': ", attributes[j].dispatch(new String[] {"name"}));
+        System.out.printf("%s", attributes[j].dispatch(new String[] {"get_rand_val"}));
+      }
+      System.out.printf("}\n");
+    }
+    return null;
+  }
+
+  public class NumGenerator {
+    private Random random;
+
+    public NumGenerator(){}
+    
+    public String dispatch(String[] message){
+      if (message[0] == "init") {
+        return init(message[1]);
+      } else if (message[0] == "get_rand_val") {
+        return getRandom(message[1], message[2]);
+      }
+      return null;
+    }
+
+    private String init(String seed) {
+      int s = Integer.parseInt(seed);
+      this.random = new Random(s);
+      return null;
+    }
+
+    private String getRandom(String min, String max){
+      float low = Float.parseFloat(min);
+      float  high = Float.parseFloat(max);
+      float randFloat = random.nextFloat() * (high - low) + low;
+      return String.format("%.2f", randFloat); 
+    }
+  }
+
+  public class Attribute {
+
+    private String min;
+    private String max;
+    private String name;
+
+    public Attribute() {}
+
+    public String dispatch(String[] message){
+      if (message[0] == "init") {
+        return init(message[1], message[2], message[3]);
+      } else if (message[0] == "get_rand_val") {
+        return randomSample();
+      } else if (message[0] == "name") {
+        return getName();
+      }
+      return null;
+    }
+
+    private String init(String name, String min, String max) {
+      this.name = name;
+      this.min = min;
+      this.max = max;
+      return null;
+    }
+
+    private String randomSample(){
+      return generator.dispatch(new String[] {"get_rand_val", min, max});
+    } 
+
+    private String getName(){
+      return name;
+    }
+  }
+}
