@@ -51,8 +51,8 @@ public class MonteCarlo {
     int v = 0;
     for (int i = 0; i < attributes.length; i++) {
       attributes[i] = new Attribute();
-      attributes[i].dispatch(new String[] {"init", init_values[v++],
-        init_values[v++], init_values[v++]});
+      attributes[i].dispatch(new String[] {"init",
+        init_values[v++], init_values[v++], init_values[v++]});
     }
     return null;
   }
