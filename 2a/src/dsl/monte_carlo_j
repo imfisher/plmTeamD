@@ -58,11 +58,14 @@ public class MonteCarlo {
 
   private String run(String n, String verbose) {
     verbose = verbose.toLowerCase();
-    boolean verb = (verbose.equals("true") || verbose.equals("t"));
+    String v = "False";
+    if (verbose.equals("true") || verbose.equals("t")) {
+      v = "True";
+    }  
     int iters = Integer.parseInt(n);
     for (int i = 0; i < iters; i++ ) {
       System.out.printf("{");
-      System.out.printf("\'verbose\': %b", verb);
+      System.out.printf("\'verbose\': %s", v);
       for (int j = 0; j < attributes.length; j++){
         System.out.printf(", \'%s\': ", attributes[j].dispatch(new String[] {"name"}));
         System.out.printf("%s", attributes[j].dispatch(new String[] {"get_rand_val"}));
