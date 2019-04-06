@@ -20,7 +20,7 @@ eg20:  ok; @$(hi); $(DSL)
 eg0:  ok; @$(hi); $(DSL) | dom | bestrest | super | rank
 eg0a: ok; @$(hi); $(DSL) | dom | bestrest | super
 eg20b: ok; @$(hi); $(DSL0) 
-eg0b: ok; @$(hi); $(DSL0) | dom | bestrest | super | rank
+eg0b: ok; @$(hi); $(DSL0) | dom | bestrest | super | rank > run.out
 eg1:  ok; @$(hi); cat $(Test)/data/weather.csv | dom
 eg2:  ok; @$(hi); $(Auto) | dom | $(some); $(Auto) | head -1 | $(some)
 eg2a: ok; @$(hi); $(Auto) | dom 
